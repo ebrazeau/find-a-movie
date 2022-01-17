@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+        // An app that has no name yet but displays movie information
+
+        // Horizontal 2 column layout: first column has search input and parameters, second displays the results 
+
+        // Step 1: Get movie results from a user's search.
+        // 1. Capture user input VIA textbox and form submission, and store in variable
+        // 2. Use variable to call API and search for movie titles that contain the keyword
+        // 3. Display movies on page
+        // 4. Create onClicks for each movie that will display more detailed information in a modal
+        // 5. Get the movie ID using the onClick target to make the second API call 
+        // 6. Populate modal with detailed information
+
+        // STRETCH GOALS
+        // Allow user to store movies they want to watch in a list (firebase)
+        // Allow users to manipulate the returns by adding filters such as genre &
+
+            const url = "https://api.themoviedb.org/3/search/movie?api_key=853030e957dca57316fe835ed75d0d32&language=en-US&query=spidermanv&page=1"
+
+            fetch(url)
+                .then((response) => {
+                    return response.json();
+                }).then((jsonData) => {
+                    console.log(jsonData);
+                });
+    </script>
+
+
+    
+</body>
+</html>

@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+header {
+  height: 60vh;
+  background-color: darkgoldenrod;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.results {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.movieCard {
+  width: 450px;
+  background-color: blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 25px;
+  margin-top: 25px;
+}
+.movieCard img {
+  width: 250px;
+}
+
+.movieCard p {
+
+}

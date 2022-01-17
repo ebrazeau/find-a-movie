@@ -1,7 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Search from './Search.js';
+import Searchbar from './Searchbar.js';
 
 function App() {
   const [error, setError] = useState(null);
@@ -58,9 +58,9 @@ function App() {
             <input type="text" id="search" onChange={handleInput} value={userInput}/>
             <button>Search</button>
           </form>
-
         </header>
 
+      {/* Should also be a component? */}
       <section className="results">
         {movies.map((movie) => {
           return (

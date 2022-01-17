@@ -50,11 +50,12 @@ header {
   justify-content: space-around;
 }
 .movieCard {
+  height: 500px;
   width: 450px;
   background-color: blue;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   border-radius: 25px;
   margin-top: 25px;
@@ -64,5 +65,5 @@ header {
 }
 
 .movieCard p {
-
+  color: white;
 }

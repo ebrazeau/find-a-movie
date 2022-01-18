@@ -1,13 +1,13 @@
 // Header.js
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Movie from './Movie';
 
 const Searchbar = () => {
-
     const [error, setError] = useState(null);
     const [movies, setMovies] = useState([]);
     const [userInput, setUserInput] = useState('');
-    const [searchQuery, setSearchQuery] = useState('-');
+    const [searchQuery, setSearchQuery] = useState('');
 
     // we only want our API to call when user submits the search form
     useEffect(() => {
@@ -25,7 +25,7 @@ const Searchbar = () => {
                 setError(error);
             }
         )
-    }, [searchQuery]);
+    }, []);
 
     // function runs every time the user enters text (onchange)
     const handleInput = (event) => {
@@ -52,7 +52,6 @@ const Searchbar = () => {
             <div className="App">
                 <header>
                     <h1>Check out these movies</h1>
-
                     {/* This bit should be its own searchbar component */}
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="art">Search for movies:</label>
@@ -63,13 +62,22 @@ const Searchbar = () => {
 
                 {/* Should also be a component? */}
                 <section className="results">
-                    {movies.map((movie) => {
+                    {movies.map((movie, index) => {
                         return (
                             <div key={movie.id} className="movieCard">
-                                <h2>{movie.original_title}</h2>
+                                {/* <h2>{movie.original_title}</h2>
                                 {movie.poster_path === null
                                     ? <p>No poster to display.</p>
-                                    : <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} alt={movie.original_title} />}
+                                    : <img src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`} alt={movie.original_title} />} */}
+                                <Movie
+                                    movieTitle={movie.original_title}
+                                    number={index}
+                                    posterPath={movie.poster_path}
+                                    backdropPath={movie.backdrop_path}
+                                    overview={movie.overview}
+                                    popularity={movie.popularity}
+                                    releaseDate={movie.releaseDate}
+                                    />
                             </div>
                         )
                     })

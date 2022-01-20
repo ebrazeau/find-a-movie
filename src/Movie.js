@@ -8,7 +8,7 @@ const Movie = (props) => {
             <>
             <h2>{movieTitle}</h2>
             {posterPath === null
-                ? <p>No poster to display.</p>
+                ? <p>No image to display.</p>
                 : <img src={`https://image.tmdb.org/t/p/original/${posterPath}`} alt={movieTitle} />}
             <span>{releaseDate}</span>
             <span>{popularity}</span>

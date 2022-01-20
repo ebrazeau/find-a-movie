@@ -4,42 +4,52 @@ import axios from 'axios';
 import Searchbar from './Searchbar.js';
 import Movie from './Movie';
 import People from './People';
+import Results from './Results';
 
 function App() {
   const [error, setError] = useState(null);
   const [movies, setMovies] = useState([]);
   const [userInput, setUserInput] = useState('');
-  const [searchQuery, setSearchQuery] = useState('-');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [people, setPeople] = useState([]);
   const [userInput2, setUserInput2] = useState('');
-  const [searchQuery2, setSearchQuery2] = useState('-');
+  const [searchQuery2, setSearchQuery2] = useState('');
 
+  const [alert, setAlert] = useState(false);
 
   // Search by title
   useEffect(() => {
-    axios({
-      url: `https://api.themoviedb.org/3/search/movie?api_key=853030e957dca57316fe835ed75d0d32&language=en-US&query=${searchQuery}&page=1&include_adult=false`,
-      method: 'GET',
-      dataResponse: 'json',   
-    }).then(
-      (response) => {
-        const rawData = response.data.results;
-        console.log(rawData); 
-        setMovies(rawData);
-      },
-      (error) => {
-        setError(error);
-      }
-    )}, [searchQuery]);
-    
-    // function runs every time the user enters text (onchange)
+    if (searchQuery !== "") {
+      axios({
+        url: `https://api.themoviedb.org/3/search/movie?api_key=853030e957dca57316fe835ed75d0d32&language=en-US&query=${searchQuery}&page=1&include_adult=false`,
+        method: 'GET',
+        dataResponse: 'json',   
+      }).then(
+        (response) => {
+          const rawData = response.data.results;
+          console.log(rawData);
+
+          if (rawData.length === 0) {
+            setAlert(true);
+          } else {
+            setMovies(rawData);
+            setAlert(false);
+          }
+        },
+        (error) => {
+          setError(error);
+        })
+      }}, [searchQuery]);
+
+
+    // Onchange for movie title field
     const handleInput = (event) => {
       // put the captured text in userInput
       setUserInput(event.target.value);
     }
   
-    // handle our title form submit
+    // Handle our title form submit
     // empty previous array and replace with new search
     const handleSubmit = (event) => {
       event.preventDefault();
@@ -52,6 +62,7 @@ function App() {
   
   // Search by crew member
   useEffect(() => {
+    if (searchQuery2 !== "") {
     axios({
       url: `https://api.themoviedb.org/3/search/person?api_key=853030e957dca57316fe835ed75d0d32&language=en-US&query=${searchQuery2}&page=1&include_adult=false`,
       method: 'GET',
@@ -59,22 +70,28 @@ function App() {
     }).then(
       (response) => {
         const rawData = response.data.results;
-        console.log(rawData);
         setPeople(rawData);
+
+        if (rawData.length === 0) {
+          setAlert(true);
+        } else {
+          setPeople(rawData);
+          setAlert(false);
+        }
       },
       (error) => {
         setError(error);
       }
     )
-  }, [searchQuery2]);
+  }}, [searchQuery2]);
 
-  // onchange function for cast
+  // Onchange function for cast field
   const handleInput2 = (event) => {
     // put the captured text in userInput
     setUserInput2(event.target.value);
   }
 
-  // submit function for cast
+  // Form submit for cast 
   const handleSubmit2 = (event) => {
     event.preventDefault();
     // set the term that calls our API
@@ -93,57 +110,33 @@ function App() {
       <div className="App">
         <header>
           
-          <h1>Check out these movies</h1>
+          <div className="formContainer">
+            <h1>Check out these movies</h1>
 
-          {/* This bit should be its own searchbar component */}
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="movie">Search by title</label>
-            <input type="text" id="search" onChange={handleInput} value={userInput}/>
-            <button>Search</button>
-          </form>
+            {/* These bits should be their own searchbar components? */}
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="movie">By title</label>
+              <input type="text" id="search" onChange={handleInput} value={userInput}/>
+              <button>Search</button>
+            </form>
 
-          <form onSubmit={handleSubmit2}>
-            <label htmlFor="crew">Search by crew</label>
-            <input type="text" id="search" onChange={handleInput2} value={userInput2} />
-            <button>Search</button>
-          </form>
+            <form onSubmit={handleSubmit2}>
+              <label htmlFor="crew">By crew member</label>
+              <input type="text" id="search" onChange={handleInput2} value={userInput2} />
+              <button>Search</button>
+            </form>
+          </div>
 
         </header>
 
-      <section className="results">
-
-        {movies === []
-          ? <p>Nothing to see</p>
-          : movies.map((item, index) => {
-            return (
-              <div key={item.id} className="movieCard">
-                <Movie
-                  movieTitle={item.original_title}
-                  posterPath={item.poster_path}
-                  backdropPath={item.backdrop_path}
-                  overview={item.overview}
-                  popularity={item.popularity}
-                  releaseDate={item.release_date}
-                  number={index}
-                />
-              </div>
-            )})}
-
-        {people === []
-          ? <p>Nothing to see</p>
-          : people.map((item, index) => {
-            return (
-              <div key={item.id} className="movieCard">
-                <People
-                  personName={item.name}
-                  photoPath={item.profile_path}
-                  department={item.known_for_department}
-                />
-              </div>
-            )})}
-
-      </section>
-
+        {alert === false
+        ? <Results 
+            movies={movies}
+            people={people}
+          />
+        : <section className="results">
+            <p>Your search term returned no results.</p>
+          </section>}
       </div>
     );
   }

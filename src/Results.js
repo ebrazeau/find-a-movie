@@ -13,11 +13,7 @@ const Results = (props) => {
                 ? <p>Nothing to see</p>
                 : movies.map((item, index) => {
                     return (
-                        <div key={item.id} className="movieCard" style={{
-                            // backgroundImage: `url(https://image.tmdb.org/t/p/w500${item.backdrop_path})`,
-                            // backgroundSize: 'cover',
-                            // backgroundRepeat: 'no-repeat',
-                        }}>
+                        <div key={item.id} className="movieCard">
                             <div className="movieContainer">
                             <Movie
                                 movieTitle={item.original_title}
@@ -38,12 +34,14 @@ const Results = (props) => {
                 : people.map((item, index) => {
                     return (
                         <div key={item.id} className="movieCard">
-                            <People
-                                personName={item.name}
-                                photoPath={item.profile_path}
-                                department={item.known_for_department}
-                                number={index}
-                            />
+                            <div className="movieContainer">
+                                <People
+                                    personName={item.name}
+                                    photoPath={item.profile_path}
+                                    department={item.known_for_department}
+                                    number={index}
+                                />
+                            </div>
                         </div>
                     )
                 })}

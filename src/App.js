@@ -1,9 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Searchbar from './Searchbar.js';
-import Movie from './Movie';
-import People from './People';
 import Results from './Results';
 
 function App() {
@@ -28,8 +25,6 @@ function App() {
       }).then(
         (response) => {
           const rawData = response.data.results;
-          console.log(rawData);
-
           if (rawData.length === 0) {
             setAlert(true);
           } else {
@@ -42,8 +37,12 @@ function App() {
         })
       }}, [searchQuery]);
 
+      useEffect(() => {
+        console.log('hi');
+      }, [])
 
-    // Onchange for movie title field
+
+    // Onchange for movie title text input
     const handleInput = (event) => {
       // put the captured text in userInput
       setUserInput(event.target.value);
@@ -55,7 +54,7 @@ function App() {
       event.preventDefault();
       // set the term that calls our API
       setSearchQuery(userInput);
-      // RESET array
+      // RESET array / results section
       setUserInput("");
       setPeople([]);
     }
@@ -109,34 +108,32 @@ function App() {
     return (
       <div className="App">
         <header>
-          
-          <div className="formContainer">
-            <h1>Check out these movies</h1>
+          <h1>Moviesearch</h1>
 
-            {/* These bits should be their own searchbar components? */}
+          <div className="formContainer">
             <form onSubmit={handleSubmit}>
-              <label htmlFor="movie">By title</label>
-              <input type="text" id="search" onChange={handleInput} value={userInput}/>
+              <label htmlFor="movie">Title</label>
+              <input type="text" id="search" onChange={handleInput} value={userInput} placeholder='Enter Movie Title'/>
               <button>Search</button>
             </form>
 
             <form onSubmit={handleSubmit2}>
-              <label htmlFor="crew">By crew member</label>
-              <input type="text" id="search" onChange={handleInput2} value={userInput2} />
+              <label htmlFor="crew">Crew member</label>
+              <input type="text" id="search" onChange={handleInput2} value={userInput2} placeholder='Enter Person' />
               <button>Search</button>
             </form>
           </div>
-
         </header>
 
         {alert === false
         ? <Results 
-            movies={movies}
-            people={people}
+              movies={movies}
+              people={people}
           />
-        : <section className="results">
+        : <section className="noResults">
             <p>Your search term returned no results.</p>
           </section>}
+
       </div>
     );
   }

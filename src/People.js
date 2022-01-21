@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 const People = (props) => {
 
     const { personName, photoPath, department } = props;
@@ -8,9 +6,9 @@ const People = (props) => {
         <>
             <h2>{personName}</h2>
             {photoPath === null
-                ? <p>No image to display.</p>
+                ? <div className="movieImg"><p>No image to display.</p></div>
                 : <img src={`https://image.tmdb.org/t/p/original/${photoPath}`} alt={personName} />}
-            <span>{department}</span>
+            <span className="department">{department}</span>
         </>
     );
 };
